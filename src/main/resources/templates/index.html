@@ -8,84 +8,76 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha2/css/bootstrap.min.css">
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha2/js/bootstrap.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Protest+Riot&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display&display=swap" rel="stylesheet">
     <link th:href="@{/css/index.css}" rel="stylesheet" />
     <title>Lab Exam</title>
 </head>
 
 <body>
-    
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <style>
-        body {
-            background-color: #f8f9fa;
-        }
-
-        .container {
-            text-align: center;
-            margin-top: 100px;
-        }
-
-        .animatedBtn {
-            animation: bounceIn 1s ease-in-out;
-        }
-
-        @keyframes bounceIn {
-            0%, 20%, 40%, 60%, 80%, 100% {
-                transition-timing-function: cubic-bezier(0.215, 0.610, 0.355, 1.000);
-                transform: translateY(0);
-            }
-
-            40% {
-                transition-timing-function: cubic-bezier(0.755, 0.050, 0.855, 0.060);
-                transform: translateY(-30px);
-            }
-
-            60% {
-                transition-timing-function: cubic-bezier(0.755, 0.050, 0.855, 0.060);
-                transform: translateY(-15px);
-            }
-
-            80% {
-                transition-timing-function: cubic-bezier(0.215, 0.610, 0.355, 1.000);
-                transform: translateY(-4px);
-            }
-        }
-    </style>
+    <script src="https://kit.fontawesome.com/3c0fd946df.js" crossorigin="anonymous"></script>
     <title>Search Candidates</title>
-</head>
-<body>
-    <div class="container">
-        <h1 class="display-4">Welcome to TalentTrackHub</h1>
-        <h6>A Candidate Records Platform</h6>
-        <p class="lead">Find the perfect candidate for your needs</p>
-        <a th:href="@{/searchCandidatesPage}" class="btn btn-primary btn-lg animatedBtn">Search Candidates</a>
-    </div>
+    </head>
+
+    <body>
+        <div class="top-bar">
+            <a class="btn btn-primary mb-3 animatedBtn hasShadow addButtonHeight" onclick="conformLogout()"> <i
+                    class="fa-solid fa-right-from-bracket"></i></a>
+        </div>
+        <!-- <div class="container"> -->
+            <h2 class="display-5">Hello, <span id="username"></span></h2>
+            <h1 class="display-4">Welcome to <span class="customTextCss">TalentTrackHub</span></h1>
+            <h6>A Candidate Records Platform</h6>
+            <p class="lead">Find the perfect candidate for your needs</p>
+            <a th:href="@{/searchCandidatesPage}" class="btn-primary searchButton animatedBtn">Search Candidates</a>
+        <!-- </div> -->
 
 
-     <!-- =======================================  Scripts ============================================ -->
- <script th:inline="javascript">
-    window.onload = () => {
-        var userName = prompt("Please enter your name:");
-        if (userName !== null) {
+        <!-- =======================================  Scripts ========================================= -->
+        <script th:inline="javascript">
+            window.onload = () => {
+                var adminDetails = /*[[${admin}]]*/ null;
 
-            var myContainer = document.getElementsByClassName('container')[0];
-            var newHeading = document.createElement('h2');
-            newHeading.innerHTML = `Hello, <span>${userName}</span>`;
-            myContainer.prepend(newHeading)
-            myContainer.style.display = 'block';
-        } else {
-            alert("You did not enter a name. Goodbye!");
+                if (adminDetails !== null && !localStorage.getItem('adminDetails')) {
+                    localStorage.setItem('adminDetails', JSON.stringify(adminDetails));
+                }
+                var myContainer = document.getElementsByClassName('container')[0];
+                var newHeading = document.getElementById('username')
+                newHeading.innerText = adminDetails.name?`${adminDetails.name}`:'Admin';
+            }
+            function conformLogout() {
+            Swal.fire({
+                title: 'Do you want to logout?',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes',
+                cancelButtonText: 'Cancel',
+            }).then((result) => {
+                if (result.value === true) {
+                    localStorage.removeItem('adminDetails');
+                    window.location.href = '/logout';
+                }
+            })
         }
-    }
-</script>
-<!-- ============================================================================================== -->
-<script th:src="@{/index.js}"></script>
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-</body>
+            // }
+        </script>
+        <!-- ============================================================================================== -->
+        <script th:src="@{/index.js}"></script>
+        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    </body>
+
 </html>
-
-

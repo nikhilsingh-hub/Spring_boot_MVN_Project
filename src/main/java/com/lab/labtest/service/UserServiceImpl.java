@@ -20,12 +20,21 @@ public class UserServiceImpl implements UserService {
 	private UserRepository userRepository;
 
 	@Override
-	public Page<UserEntity> findPaginated(int pageNo, int pageSize, String sortField, String sortDirection) {
-		Sort sort = sortDirection.equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.by(sortField).ascending()
-				: Sort.by(sortField).descending();
+	public UserEntity checkCredentials(UserEntity userEntity){
+		UserEntity admin = this.userRepository.findByDesignationAndEmail("admin", userEntity.getEmail());
+		// return admin != null && admin.getRelated_data().equals(userEntity.getRelated_data());
+		if (admin != null) {
+            admin.setRelatedData(null);
+            return admin;
+        } else {
+            return null;
+        }
+	}
 
-		Pageable pageable = PageRequest.of(pageNo - 1, pageSize, sort);
-		return this.userRepository.findAll(pageable);
+	@Override
+	public List<UserEntity> getAllUsers(){
+		List<UserEntity> candidates = userRepository.findAll();
+		return candidates;
 	}
 
 	@Override

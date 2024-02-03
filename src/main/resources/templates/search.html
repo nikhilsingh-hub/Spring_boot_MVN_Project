@@ -1,123 +1,137 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
+
 <head>
     <title>Candidates Detail Page</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha2/css/bootstrap.min.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,800;1,700&family=Single+Day&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://kit.fontawesome.com/3c0fd946df.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" th:href="@{/css/search.css}">
 </head>
-<body>
 
-<div class="container">
-    <h2 class="text-center">Candidates Detail Page</h2>
-    <div class="row">
-        <div class="col-md-2">
-            <a th:href="@{/addNewCandidateForm}" class="btn btn-primary btn-sm mb-3 animatedBtn shadow"> Add New Candidates  -&gt;</a>
-        </div>
-        <div class="row">
-            <div class="col-md-4">
-                <div class="input-group mb-3 py-3">
-                    <input type="text" id="searchInput" class="form-control shadow" placeholder="Enter search criteria" onkeyup="searchCandidates()"/>
-                    <div>
-                        <!-- <button type="button" class="btn btn-dark ml-3 animatedBtn">Search</button> -->
-                        <button type="button" class="btn btn-primary ml-3 animatedBtn shadow" onclick="refreshTable()">Refresh</button>
+<body>
+    <div class="top-bar">
+        <!-- <h2 class="text-center">Candidates Detail Page</h2> -->
+        <a class="btn btn-primary mb-3 animatedBtn hasShadow addButtonHeight" onclick="conformLogout()"> <i
+                class="fa-solid fa-right-from-bracket"></i></a>
+    </div>
+
+    <div class="container">
+        <div class="row search-button-container">
+            <div class="col-md-3">
+                <a th:href="@{/addNewCandidateForm}" class="btn mb-3 animatedBtn hasShadow otherButtons"
+                    style="margin-right: 0.5vh;margin-top: 0.5vh;"> Add New Candidates <i
+                        class="fa-solid fa-arrow-right"></i></a>
+            </div>
+            <div>
+                <div>
+                    <div class="input-group mb-3 py-3">
+                        <div class="buttons-search-container">
+                            <div class="search-refresh-container">
+                                <input type="text" id="searchInput" class="form-control"
+                                    placeholder="Enter search criteria" onkeyup="searchCandidates()" />
+                                <button type="button" class="btn ml-3 animatedBtn hasShadow addButtonHeight otherButtons"
+                                    onclick="refreshTable()">Refresh</button>
+                            </div>
+                            <a href="/" class="btn btn mb-4 mt-2 animatedBtn hasShadow otherButtons addButtonHeight"><i
+                                    class="fa-solid fa-arrow-left" style="margin-right: 0.5vh;"></i> Go to Home Page</a>
+                        </div>
                     </div>
                 </div>
             </div>
-
         </div>
-    </div>
-       
-    
-    
-    <table class = "table table-dark table-striped table-responsive-md py-3 p-3 shadow">
-        <thead>
-            <tr>
-                <th th:href="@{'/page/' + ${currentPage} + '?sortField=name&sortDir=' + ${reverseSortDir}}">ID</th>
-                <th th:href="@{'/page/' + ${currentPage} + '?sortField=name&sortDir=' + ${reverseSortDir}}">Name</th>
-                <th th:href="@{'/page/' + ${currentPage} + '?sortField=name&sortDir=' + ${reverseSortDir}}">Email</th>
-                <th th:href="@{'/page/' + ${currentPage} + '?sortField=name&sortDir=' + ${reverseSortDir}}">Age</th>
-                <th th:href="@{'/page/' + ${currentPage} + '?sortField=name&sortDir=' + ${reverseSortDir}}">Designation</th>
-                <th th:href="@{'/page/' + ${currentPage} + '?sortField=name&sortDir=' + ${reverseSortDir}}">Action</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr th:each="candidate : ${candidates}">
-                <td th:text="${candidate.id}"></td>
-                <td th:text="${candidate.name}"></td>
-                <td th:text="${candidate.email}"></td>
-                <td th:text="${candidate.age}"></td>
-                <td th:text="${candidate.designation}"></td>
 
-                <td> 
-                    <a th:href="@{/updateCandidateForm/{id}(id=${candidate.id})}" class="btn btn-primary animatedBtn mr-2">Edit</a>
-                    <a th:href="@{/deleteCandidate/{id}(id=${candidate.id})}" class="btn btn-danger animatedBtn">Delete</a>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-    <div th:if = "${totalPages > 1}">
-        <div class = "row col-sm-10">
-            <div class = "col-sm-2">
-                Total Rows: [[${totalItems}]] 
-            </div>
-            <div class = "col-sm-1">
-                <span th:each="i: ${#numbers.sequence(1, totalPages)}">
-                    <a th:if="${currentPage != i}" th:href="@{'/page/' + ${i}+ '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">[[${i}]]</a>
-                    <span th:unless="${currentPage != i}">[[${i}]]</span>  &nbsp; &nbsp;
-                </span>
-            </div>
-            <div class = "col-sm-1">
-                <a th:if="${currentPage < totalPages}" th:href="@{'/page/' + ${currentPage + 1}+ '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">Next</a>
-                <span th:unless="${currentPage < totalPages}">Next</span>
-            </div>
-            
-             <div class="col-sm-1">
-                <a th:if="${currentPage < totalPages}" th:href="@{'/page/' + ${totalPages}+ '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">Last</a>
-                <span th:unless="${currentPage < totalPages}">Last</span>
-                </div>
+        <div class="table-container">
+            <table class="table table-striped table-responsive-md p-3">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Age</th>
+                        <th>Designation</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="candidate : ${candidates}">
+                        <td th:text="${candidate.id}"></td>
+                        <td th:text="${candidate.name}"></td>
+                        <td th:text="${candidate.email}"></td>
+                        <td th:text="${candidate.age}"></td>
+                        <td th:text="${candidate.designation}"></td>
+
+                        <td>
+                            <a th:href="@{/updateCandidateForm/{id}(id=${candidate.id})}"
+                                class="btn btn-primary animatedBtn mr-2 hasShadow">Edit</a>
+                            <a th:href="@{/deleteCandidate/{id}(id=${candidate.id})}"
+                                class="btn btn-danger animatedBtn hasShadow">Delete</a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
+        <!-- <a href="/" class="btn btn-secondary mb-4 mt-2 animatedBtn hasShadow">&lt;-  Go to Home Page</a> -->
     </div>
-    <a href="/" class="btn btn-secondary mb-4 mt-2 animatedBtn shadow">&lt;-  Go to Home Page</a>
-</div>
+
+    </div>
 
 
-<!-- =======================================  Scripts ============================================ -->
+    <!-- =======================================  Scripts ============================================ -->
 
-<script th:inline="javascript">
-    function searchCandidates() {
-        var searchText = document.getElementById('searchInput').value.toLowerCase();
-        var rows = document.querySelectorAll('tbody tr');
+    <script th:inline="javascript">
+        function searchCandidates() {
+            var searchText = document.getElementById('searchInput').value.toLowerCase();
+            var rows = document.querySelectorAll('tbody tr');
 
-        rows.forEach(function (row) {
-            var found = false;
-            row.childNodes.forEach(cell => {
-                if (cell.textContent.toLowerCase().includes(searchText)) {
-                    found = true;
+            rows.forEach(function (row) {
+                var found = false;
+                row.childNodes.forEach(cell => {
+                    if (cell.textContent.toLowerCase().includes(searchText)) {
+                        found = true;
+                    }
+                });
+
+                if (found) {
+                    row.style.display = row;
+                } else {
+                    row.style.display = 'none';
                 }
             });
+        }
 
-            if (found) {
-                row.style.display = row;
-            } else {
-                row.style.display = 'none';
-            }
-        });
-    }
+        function refreshTable() {
+            document.getElementById('searchInput').value = '';
+            var rows = document.querySelectorAll('tbody tr');
+            rows.forEach(row => {
+                row.style.display = '';
+            })
+        }
 
-    function refreshTable(){
-        document.getElementById('searchInput').value = '';
-        var rows = document.querySelectorAll('tbody tr');
-        rows.forEach(row => {
-            row.style.display = '';
-        })
-    }
-</script>
+        function conformLogout() {
+            Swal.fire({
+                title: 'Do you want to logout?',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes',
+                cancelButtonText: 'Cancel',
+            }).then((result) => {
+                if (result.value === true) {
+                    localStorage.removeItem('adminDetails');
+                    window.location.href = '/logout';
+                }
+            })
 
-<!-- ============================================================================================== -->
+        }
+    </script>
+
+    <!-- ============================================================================================== -->
 
 </body>
+
 </html>

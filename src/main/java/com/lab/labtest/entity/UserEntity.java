@@ -25,4 +25,8 @@ public class UserEntity {
 
     @Column(name="related_data")
     private  String related_data;
+
+    public void setRelatedData(String relatedData) {
+        this.related_data = relatedData;
+    }
 }
