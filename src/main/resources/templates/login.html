@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,35 +8,42 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>    
-<link href="https://fonts.googleapis.com/css2?family=Protest+Riot&display=swap" rel="stylesheet"> 
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Protest+Riot&display=swap" rel="stylesheet">
     <script src="https://kit.fontawesome.com/3c0fd946df.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" th:href="@{/css/login.css}">
 </head>
+
 <body>
     <div class="container">
         <h1>Login</h1>
-        <form class="login-form"  th:action="@{/handleLogin}" th:object="${admin}">
+        <form class="login-form" th:action="@{/handleLogin}" th:object="${admin}">
             <div class="form-group">
                 <label for="username">EmailId:</label>
                 <input type="email" th:field="*{email}" class="form-control" id="email" th:required="required">
             </div>
             <div class="form-group">
                 <label for="password">Password:</label>
-                <input type="password" th:field="*{related_data}" class="form-control" id="password" th:required="required">
+                <input type="password" th:field="*{related_data}" class="form-control" id="password"
+                    th:required="required">
             </div>
             <div class="form-group">
                 <button type="submit" class="btn btn-primary btn-block">Login</button>
             </div>
         </form>
+        <div id="errorBox" th:text="${errorText}"></div>
     </div>
     <script th:inline="javascript">
         window.onload = () => {
+            setTimeout(()=>{
+                document.getElementById('errorBox').innerText='';
+
+            },2000)
             var adminDetails = localStorage.getItem('adminDetails');
-        if (adminDetails) {
-            var adminObject = JSON.parse(adminDetails);
-            window.location.href = '/getHomePage?name=' + adminObject.name;
-        }
+            if (adminDetails) {
+                var adminObject = JSON.parse(adminDetails);
+                window.location.href = '/getHomePage?name=' + adminObject.name;
+            }
         }
 
         function conformLogout() {
@@ -53,12 +61,12 @@
                     window.location.href = '/logout';
                 }
             })
-
         }
-</script>
+    </script>
     <!-- Bootstrap JS and jQuery (Optional) -->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <!-- <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.0.7/dist/umd/popper.min.js"></script> -->
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
+
 </html>

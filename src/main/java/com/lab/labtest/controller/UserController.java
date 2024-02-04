@@ -24,17 +24,22 @@ public class UserController {
     public String sendLoginPage(Model model) {
         UserEntity userEntity = new UserEntity();
         model.addAttribute("admin", userEntity);
+        model.addAttribute("errorText", "");
         return "login";
     }
 
     @GetMapping("/handleLogin")
     public String handleLogin(@ModelAttribute("admin") UserEntity userEntity, Model model) {
         UserEntity myAdmin = userService.checkCredentials(userEntity);
-        if(myAdmin != null)
-        {   model.addAttribute("admin", myAdmin);
-            return  "index";
-        }else {
-            return "redirect:/";
+        if (myAdmin != null) {
+            model.addAttribute("admin", myAdmin);
+            return "index";
+        } else {
+            UserEntity xy = new UserEntity();
+            model.addAttribute("admin", xy);
+            model.addAttribute("errorText", "Invalid Email or Password");
+            return "login";
+            // return "redirect:/";
         }
     }
 
@@ -43,7 +48,7 @@ public class UserController {
         UserEntity userEntity = new UserEntity();
         userEntity.setName(name);
         model.addAttribute("admin", userEntity);
-        return  "index";
+        return "index";
     }
 
     @GetMapping("/searchCandidatesPage")
@@ -90,10 +95,10 @@ public class UserController {
         model.addAttribute("candidate", userEntity);
         return "details";
     }
+
     @GetMapping("/logout")
     public String logoutRoute() {
         return "redirect:/";
     }
-    
 
 }

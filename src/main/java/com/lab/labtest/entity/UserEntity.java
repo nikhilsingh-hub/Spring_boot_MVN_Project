@@ -29,4 +29,8 @@ public class UserEntity {
     public void setRelatedData(String relatedData) {
         this.related_data = relatedData;
     }
+
+    public String getRelatedData() {
+        return this.related_data;
+    }
 }

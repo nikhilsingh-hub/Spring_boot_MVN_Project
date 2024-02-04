@@ -22,8 +22,7 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public UserEntity checkCredentials(UserEntity userEntity){
 		UserEntity admin = this.userRepository.findByDesignationAndEmail("admin", userEntity.getEmail());
-		// return admin != null && admin.getRelated_data().equals(userEntity.getRelated_data());
-		if (admin != null) {
+		if (admin != null && userEntity.getRelatedData().equals(admin.getRelatedData())) {
             admin.setRelatedData(null);
             return admin;
         } else {
