@@ -2,13 +2,7 @@ package com.lab.labtest.service;
 
 import java.util.List;
 import java.util.Optional;
-
-// import org.apache.el.stream.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.lab.labtest.entity.UserEntity;
@@ -19,6 +13,20 @@ public class UserServiceImpl implements UserService {
 	@Autowired
 	private UserRepository userRepository;
 
+	@Override
+	public void saveAdminDetails(){
+		boolean adminExists = userRepository.existsByDesignation("admin");
+
+        if (!adminExists){
+			UserEntity myAdmin = new UserEntity();
+		myAdmin.setDesignation("admin");
+		myAdmin.setEmail("admin@gmail.com");
+		myAdmin.setRelatedData("123");
+		this.userRepository.save(myAdmin);
+		}
+		
+		return;
+	}
 	@Override
 	public UserEntity checkCredentials(UserEntity userEntity){
 		UserEntity admin = this.userRepository.findByDesignationAndEmail("admin", userEntity.getEmail());

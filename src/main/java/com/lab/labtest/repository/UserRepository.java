@@ -8,6 +8,7 @@ import com.lab.labtest.entity.UserEntity;
 @Repository
 public interface UserRepository extends JpaRepository<UserEntity, Long>{
     UserEntity findByDesignationAndEmail(String designation, String email);
+    boolean existsByDesignation(String relatedData);
     // UserEntity findByEmail(String email);
 
 }

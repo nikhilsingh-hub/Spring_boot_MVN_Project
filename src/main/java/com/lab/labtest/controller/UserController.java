@@ -23,6 +23,7 @@ public class UserController {
     @GetMapping("/")
     public String sendLoginPage(Model model) {
         UserEntity userEntity = new UserEntity();
+        userService.saveAdminDetails();
         model.addAttribute("admin", userEntity);
         model.addAttribute("errorText", "");
         return "login";
@@ -35,8 +36,8 @@ public class UserController {
             model.addAttribute("admin", myAdmin);
             return "index";
         } else {
-            UserEntity xy = new UserEntity();
-            model.addAttribute("admin", xy);
+            UserEntity userAdmin = new UserEntity();
+            model.addAttribute("admin", userAdmin);
             model.addAttribute("errorText", "Invalid Email or Password");
             return "login";
             // return "redirect:/";

@@ -1,8 +1,6 @@
 package com.lab.labtest.service;
 
 import java.util.List;
-
-import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
 import com.lab.labtest.entity.UserEntity;
@@ -17,7 +15,7 @@ public interface UserService {
     
     UserEntity checkCredentials(UserEntity userEntity);
 
-    List<UserEntity> getAllUsers();
+    void saveAdminDetails();
 
-    // Page<UserEntity> findPaginated(int pageNo, int pageSize, String sortField, String sortDirection);
+    List<UserEntity> getAllUsers();
 }
