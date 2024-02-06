@@ -11,6 +11,7 @@
 	<groupId>com.lab</groupId>
 	<artifactId>labtest</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
+	<packaging>jar</packaging>
 	<name>labtest</name>
 	<description>Demo project for Spring Boot</description>
 	<properties>
@@ -56,9 +57,18 @@
 	<build>
 		<plugins>
 			<plugin>
-				<groupId>org.springframework.boot</groupId>
-				<artifactId>spring-boot-maven-plugin</artifactId>
+				<!-- <groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId> -->
+				<groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-archiver-plugin</artifactId>
+		 <version>3.9.6</version>
 				<configuration>
+				 <archive>
+            <manifest>
+              <addClasspath>true</addClasspath>
+			  <mainClass>fully.qualified.MainClass</mainClass>
+            </manifest>
+          </archive>
 					<excludes>
 						<exclude>
 							<groupId>org.projectlombok</groupId>
