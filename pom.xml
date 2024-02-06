@@ -66,7 +66,7 @@
 				 <archive>
             <manifest>
               <addClasspath>true</addClasspath>
-			  <mainClass>fully.qualified.MainClass</mainClass>
+			  <mainClass>com.lab.labtest.LabtestApplication</mainClass>
             </manifest>
           </archive>
 					<excludes>
